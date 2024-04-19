@@ -1,0 +1,23 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    if (!empty($username) && !empty($password)) {
+        $users = file("database.txt", FILE_IGNORE_NEW_LINES);
+        foreach ($users as $user) {
+            $userData = explode(",", $user);
+            if ($userData[0] == $username && $userData[5] == $password) {
+                echo "success";
+                exit();
+            }
+        }
+        echo "Invalid username or password.";
+    } else {
+        echo "Please fill in all required fields.";
+    }
+} else {
+    header("Location: login.html");
+    exit();
+}
+?>

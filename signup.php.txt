@@ -1,0 +1,28 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+    $firstname = $_POST["firstname"];
+    $lastname = $_POST["lastname"];
+    $age = $_POST["age"];
+    $password = $_POST["password"];
+    $terms = isset($_POST["terms"]) ? $_POST["terms"] : '';
+
+    if (!empty($username) && !empty($email) && !empty($firstname) && !empty($lastname) && !empty($age) && !empty($password) && !empty($terms)) {
+        $data = "$username,$email,$firstname,$lastname,$age,$password\n";
+        $file = fopen("database.txt", "a");
+        if ($file) {
+            fwrite($file, $data);
+            fclose($file);
+            echo "success";
+        } else {
+            echo "Error occurred while signing up. Please try again later.";
+        }
+    } else {
+        echo "Please fill in all required fields.";
+    }
+} else {
+    header("Location: signup.html");
+    exit();
+}
+?>
